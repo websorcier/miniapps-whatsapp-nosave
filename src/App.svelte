@@ -64,17 +64,18 @@
 			<main class="app-form">
 				<form class="flex flex-col sm:flex-row sm:items-center mb-4" on:submit|preventDefault={ submitForm }>
 					<div class="form-group flex-1 mb-4 sm:mr-4 sm:mb-0">
+						<!-- svelte-ignore a11y-autofocus -->
 						<input
 							type="tel"
 							placeholder="Phone (with country code)"
 							bind:value={ formData.phone }
 							autofocus
-							class="appearance-none block py-4 px-6 w-full text-lg rounded-lg bg-slate-700 placeholder-gray-400 text-white bg-transparent outline-none ring-0 border-0"
+							class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600"
 						/>
 					</div>
 					<div class="form-actions">
 						<button
-							class="border-0 text-lg w-full tracking-wide bg-indigo-500 text-white rounded-md py-4 px-6 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-none sm:w-auto"
+							class="border-0 text-lg w-full tracking-wide bg-purple-600 text-white rounded-md py-4 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-700 focus:outline-none focus:shadow-none sm:w-auto"
 							disabled={ isEmpty(formData.phone) }>
 							Open WhatsApp
 						</button>
