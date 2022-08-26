@@ -2,13 +2,10 @@
 	/* ----------  Imports  ---------- */
 
 	// Lodash
-	import { isEmpty, map, find } from 'lodash';
+	import { map } from 'lodash';
 
 	// Yup
 	import * as yup from 'yup';
-
-	// Svelecte
-	import Select from 'svelecte';
 
 	// Snackbar
 	import Snackbar from 'awesome-snackbar';
@@ -20,22 +17,18 @@
 
 	let formData = {
 		phone: '',
-		code: '+91',
+		code: localStorage.getItem('phoneCode') || '+91',
 	}
 
 	const validatorSchema = yup.object({
-		phone: yup.string().matches(new RegExp('[0-9]{12}')),
+		phone: yup.string().matches(new RegExp('[0-9]{10}')),
 	});
 
 	const phoneCodes = map(codes, code => ({ text: code.name, value: code.dial_code }));
-	const selectedPhoneCode = find(phoneCodes, { value: formData.code });
-
-	console.log({ phoneCodes, selectedPhoneCode });
 
 	const submitForm = async () => {
 		try {
 			const isValid = await validatorSchema.isValid(formData);
-			console.log(isValid);
 
 			if(!isValid) {
 				Snackbar('Please enter a valid phone number!', {
@@ -56,6 +49,8 @@
 
 			const url = `https://wa.me/${ formData.phone }`;
 			window.open(url, '_blank');
+
+			localStorage.setItem('phoneCode', formData.code);
 
 			formData.phone = '';
 		} catch (err) {
