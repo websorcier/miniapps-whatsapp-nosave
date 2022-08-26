@@ -85,7 +85,7 @@
 							<!-- svelte-ignore a11y-autofocus -->
 							<input
 								type="tel"
-								placeholder="Phone (with country code)"
+								placeholder="Phone Number"
 								bind:value={ formData.phone }
 								autofocus
 								class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600"
