@@ -2,23 +2,35 @@
 	/* ----------  Imports  ---------- */
 
 	// Lodash
-	import { isEmpty } from 'lodash';
+	import { isEmpty, map, find } from 'lodash';
 
 	// Yup
 	import * as yup from 'yup';
 
+	// Svelecte
+	import Select from 'svelecte';
+
 	// Snackbar
 	import Snackbar from 'awesome-snackbar';
+
+	// Data
+	import codes from './data/PhoneCountryCodes';
 
 	/* ----------  Scripts  ---------- */
 
 	let formData = {
-		phone: '+91',
+		phone: '',
+		code: '+91',
 	}
 
 	const validatorSchema = yup.object({
 		phone: yup.string().matches(new RegExp('[0-9]{12}')),
 	});
+
+	const phoneCodes = map(codes, code => ({ text: code.name, value: code.dial_code }));
+	const selectedPhoneCode = find(phoneCodes, { value: formData.code });
+
+	console.log({ phoneCodes, selectedPhoneCode });
 
 	const submitForm = async () => {
 		try {
@@ -45,7 +57,7 @@
 			const url = `https://wa.me/${ formData.phone }`;
 			window.open(url, '_blank');
 
-			formData.phone = '+91';
+			formData.phone = '';
 		} catch (err) {
 			console.log(err);
 		}
@@ -62,23 +74,33 @@
 				<h1 class="text-3xl md:text-5xl font-bold">WhatsApp Nosave</h1>
 			</header>
 			<main class="app-form">
-				<form class="flex flex-col sm:flex-row sm:items-center mb-4" on:submit|preventDefault={ submitForm }>
-					<div class="form-group flex-1 mb-4 sm:mr-4 sm:mb-0">
-						<!-- svelte-ignore a11y-autofocus -->
-						<input
-							type="tel"
-							placeholder="Phone (with country code)"
-							bind:value={ formData.phone }
-							autofocus
-							class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600"
-						/>
+				<form class="mb-4" on:submit|preventDefault={ submitForm }>
+					<div class="form-group select-form-group mb-4 relative">
+						<select
+							bind:value={ formData.code }
+							class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600 hover:border-purple-600 cursor-pointer">
+							{ #each phoneCodes as code }
+								<option value={ code.value } class="text-slate-900">{ code.text } ({ code.value })</option>
+							{ /each }
+						</select>
+						<span class="material-icons absolute top-2/4 right-5 -translate-y-1/2">expand_more</span>
 					</div>
-					<div class="form-actions">
-						<button
-							class="border-0 text-lg w-full tracking-wide bg-purple-600 text-white rounded-md py-4 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-700 focus:outline-none focus:shadow-none sm:w-auto"
-							disabled={ isEmpty(formData.phone) }>
-							Open WhatsApp
-						</button>
+					<div class="flex flex-col sm:flex-row sm:items-center">
+						<div class="form-group flex-1 mb-4 sm:mr-4 sm:mb-0">
+							<!-- svelte-ignore a11y-autofocus -->
+							<input
+								type="tel"
+								placeholder="Phone (with country code)"
+								bind:value={ formData.phone }
+								autofocus
+								class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600"
+							/>
+						</div>
+						<div class="form-actions">
+							<button class="border-0 text-lg w-full tracking-wide bg-purple-600 text-white rounded-md py-4 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-700 focus:outline-none focus:shadow-none sm:w-auto">
+								Open WhatsApp
+							</button>
+						</div>
 					</div>
 				</form>
 				<p class="text-slate-500 text-center sm:text-left">No data is being saved or used in any way.</p>
@@ -87,7 +109,7 @@
 		<footer class="app-footer py-6 lg:py-8">
 			<div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center">
 				<div class="copyright-container sm:mb-0 mb-4">
-					<p class="text-gray-300">&copy; Web Sorcier { new Date().getFullYear() }</p>
+					<a href="https://websorcier.com" target="_blank" class="text-gray-300">&copy; Web Sorcier { new Date().getFullYear() }</a>
 				</div>
 				<div class="contact-container">
 					<ul class="contact-list flex items-center gap-3">
@@ -102,7 +124,3 @@
 
 	</div>
 </div>
-
-<style>
-
-</style>
