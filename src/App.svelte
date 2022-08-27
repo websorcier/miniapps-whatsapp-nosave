@@ -47,7 +47,7 @@
 				return;
 			}
 
-			const url = `https://wa.me/${ formData.phone }`;
+			const url = `https://wa.me/${ formData.code }${ formData.phone }`;
 			window.open(url, '_blank');
 
 			localStorage.setItem('phoneCode', formData.code);
