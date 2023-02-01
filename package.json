@@ -26,5 +26,8 @@
     "typescript": "^4.6.4",
     "vite": "^3.0.7",
     "yup": "^0.32.11"
+  },
+  "dependencies": {
+    "copy-to-clipboard": "^3.3.3"
   }
 }

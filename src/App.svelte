@@ -10,6 +10,9 @@
 	// Snackbar
 	import Snackbar from 'awesome-snackbar';
 
+	// Copy To Clipboard
+	import copy from 'copy-to-clipboard';
+
 	// Data
 	import codes from './data/PhoneCountryCodes';
 
@@ -26,7 +29,42 @@
 
 	const phoneCodes = map(codes, code => ({ text: code.name, value: code.dial_code }));
 
+	const onCopyToClipboardClick = async () => {
+		try {
+			const url = await generateLink();
+			copy(url);
+
+			Snackbar('Link copied to clipboard!', {
+				position: 'top-center',
+				style: {
+					container: [
+						['background-color', '#9333ea'],
+						['border-radius', '5px']
+					],
+					message: [
+						['font-family', 'Poppins']
+					]
+				}
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	const submitForm = async () => {
+		try {
+			const url = await generateLink();
+			window.open(url, '_blank');
+
+			localStorage.setItem('phoneCode', formData.code);
+
+			formData.phone = '';
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	const generateLink = async () => {
 		try {
 			const isValid = await validatorSchema.isValid(formData);
 
@@ -44,17 +82,15 @@
 					}
 				});
 
-				return;
+				throw new Error('Invalid data entered!');
 			}
 
 			const url = `https://wa.me/${ formData.code }${ formData.phone }`;
-			window.open(url, '_blank');
-
 			localStorage.setItem('phoneCode', formData.code);
 
-			formData.phone = '';
+			return url;
 		} catch (err) {
-			console.log(err);
+			throw err;
 		}
 	}
 </script>
@@ -80,8 +116,8 @@
 						</select>
 						<span class="material-icons absolute top-2/4 right-5 -translate-y-1/2">expand_more</span>
 					</div>
-					<div class="flex flex-col sm:flex-row sm:items-center">
-						<div class="form-group flex-1 mb-4 sm:mr-4 sm:mb-0">
+					<div class="flex flex-col">
+						<div class="form-group flex-1 mb-4">
 							<!-- svelte-ignore a11y-autofocus -->
 							<input
 								type="tel"
@@ -91,9 +127,15 @@
 								class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600"
 							/>
 						</div>
-						<div class="form-actions">
-							<button class="border-0 text-lg w-full tracking-wide bg-purple-600 text-white rounded-md py-4 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-700 focus:outline-none focus:shadow-none sm:w-auto">
+						<div class="form-actions flex flex-row gap-4">
+							<button type="submit" class="flex-1 border-2 text-lg w-full tracking-wide border-transparent bg-purple-600 text-white rounded-md py-4 pb-3 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-700 focus:outline-none focus:shadow-none sm:w-auto">
 								Open WhatsApp
+							</button>
+							<button
+								type="button"
+								class="flex-1 border-2 text-lg w-full tracking-wide border-purple-500 text-purple-500 rounded-md py-4 pb-3 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-500 hover:text-white focus:outline-none focus:shadow-none sm:w-auto"
+								on:click={ onCopyToClipboardClick }>
+								Copy Link
 							</button>
 						</div>
 					</div>
