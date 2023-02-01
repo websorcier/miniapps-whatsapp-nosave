@@ -146,7 +146,7 @@
 		<footer class="app-footer py-6 lg:py-8">
 			<div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center">
 				<div class="copyright-container sm:mb-0 mb-4">
-					<a href="https://websorcier.com" target="_blank" class="text-gray-300">&copy; Web Sorcier { new Date().getFullYear() }</a>
+					<a href="https://websorcier.com" target="_blank" class="text-gray-300">Developed by <strong>Web Sorcier</strong></a>
 				</div>
 				<div class="contact-container">
 					<ul class="contact-list flex items-center gap-3">
