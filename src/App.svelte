@@ -127,7 +127,7 @@
 								class="appearance-none border-2 border-purple-900 block py-4 px-6 w-full text-lg rounded-lg placeholder-gray-400 text-white bg-transparent outline-none duration-300 ease-in-out ring-0 focus:border-purple-600"
 							/>
 						</div>
-						<div class="form-actions flex flex-row gap-4">
+						<div class="form-actions flex flex-col gap-4 sm:flex-row">
 							<button type="submit" class="flex-1 border-2 text-lg w-full tracking-wide border-transparent bg-purple-600 text-white rounded-md py-4 pb-3 px-6 transition duration-300 ease-in-out select-none hover:bg-purple-700 focus:outline-none focus:shadow-none sm:w-auto">
 								Open WhatsApp
 							</button>
@@ -144,17 +144,9 @@
 			</main>
 		</div>
 		<footer class="app-footer py-6 lg:py-8">
-			<div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center">
-				<div class="copyright-container sm:mb-0 mb-4">
+			<div class="text-center">
+				<div class="copyright-container">
 					<a href="https://websorcier.com" target="_blank" class="text-gray-300">Developed by <strong>Web Sorcier</strong></a>
-				</div>
-				<div class="contact-container">
-					<ul class="contact-list flex items-center gap-3">
-						<li><a href="mailto:hello@websorcier.com" target="_blank">Email</a></li>
-						<li><a href="https://twitter.com/websorcier/" target="_blank">Twitter</a></li>
-						<li><a href="https://www.instagram.com/websorcier/" target="_blank">Instagram</a></li>
-						<li><a href="https://in.linkedin.com/in/azizk49/" target="_blank">LinkedIn</a></li>
-					</ul>
 				</div>
 			</div>
 		</footer>
